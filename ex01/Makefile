@@ -6,7 +6,7 @@
 #    By: steh <steh@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/18 17:07:14 by steh              #+#    #+#              #
-#    Updated: 2022/08/18 21:17:23 by steh             ###   ########.fr        #
+#    Updated: 2022/08/19 20:29:07 by steh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,27 +18,24 @@ HEAD_DIR		=	header
 NAME			=	phonebook
 # OBJS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))
 OBJS			=	$(patsubst $(SRCS_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
-CFLAGS			=	-Wall -Wextra -Werror -std=c++98 -pedantic-errors
+CFLAGS			=	-Wall -Wextra -Werror -std=c++98 -pedantic -g -fsanitize=address
 CC				=	c++	
 
 all				: 	$(NAME)
 					./phonebook
 
-# $(OBJS)		:	$(SRCS)
-# 					$(CC) $(CFLAGS) $(SRCS) -c
-
 $(NAME)			:	$(OBJS)
-					@$(CC) -I$(HEAD_DIR) $^ -o $(NAME)
+					$(CC) $(CFLAGS) -I $(HEAD_DIR) $(OBJS) -o $@
 
 $(OBJ_DIR)/%.o	:	$(SRCS_DIR)/%.cpp $(HEAD_DIR)
 					mkdir -p $(dir $@)
-					@$(CC) $(CFLAGS) -I $(HEAD_DIR) -c $< -o $@ 
+					$(CC) $(CFLAGS) -I $(HEAD_DIR) -c $< -o $@
 
 clean			:
-					rm -rf $(OBJ_DIR)
+					@rm -rf $(OBJ_DIR)
 
 fclean			:	clean
-					rm -f $(NAME)
+					@rm -f $(NAME)
 
 re				:	fclean all
 

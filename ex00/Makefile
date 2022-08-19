@@ -6,14 +6,14 @@
 #    By: steh <steh@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/18 17:07:14 by steh              #+#    #+#              #
-#    Updated: 2022/08/18 17:40:32 by steh             ###   ########.fr        #
+#    Updated: 2022/08/19 16:50:28 by steh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	=	megaphone.cpp
 NAME	=	megaphone
 OBJS	=	$(SRCS:.cpp=.o)
-CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -pedantic-errors
+CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -pedantic -g -fsanitize=address
 CC		=	c++	
 
 all		: 	$(NAME)
