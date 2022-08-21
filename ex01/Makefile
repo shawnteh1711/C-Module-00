@@ -6,7 +6,7 @@
 #    By: steh <steh@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/18 17:07:14 by steh              #+#    #+#              #
-#    Updated: 2022/08/19 20:29:07 by steh             ###   ########.fr        #
+#    Updated: 2022/08/21 20:25:10 by steh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ CFLAGS			=	-Wall -Wextra -Werror -std=c++98 -pedantic -g -fsanitize=address
 CC				=	c++	
 
 all				: 	$(NAME)
-					./phonebook
+					./$(NAME)
 
 $(NAME)			:	$(OBJS)
 					$(CC) $(CFLAGS) -I $(HEAD_DIR) $(OBJS) -o $@

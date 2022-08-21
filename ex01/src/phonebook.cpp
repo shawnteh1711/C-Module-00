@@ -6,23 +6,23 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 20:43:44 by steh              #+#    #+#             */
-/*   Updated: 2022/08/19 21:10:08 by steh             ###   ########.fr       */
+/*   Updated: 2022/08/21 19:43:52 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phonebook.hpp"
 
-Phonebook::Phonebook()
+PhoneBook::PhoneBook(void) : _idx(0), _cur(0)
 {
-	this->_idx = 0;
+	return ;
 }
 
-Phonebook::~Phonebook()
+PhoneBook::~PhoneBook(void)
 {
-
+	return ;
 }
 
-void	Phonebook::ft_display()
+void	PhoneBook::ft_display(void)
 {
 	std::cout << "+----------------PHONEBOOK----------------+" << std::endl;
 	std::cout << "|                  1-ADD                  |" << std::endl;
@@ -31,12 +31,11 @@ void	Phonebook::ft_display()
 	std::cout << "+-----------------------------------------+" << std::endl;
 }
 
-void	Phonebook::ft_add()	
+void	PhoneBook::ft_add(void)	
 {
 	Contact	contact;
 
 	std::string input;
-	std::string output;
 	std::cout << "First Name" << std::endl;
 	std::cin >> input;
 	contact.set_first_name(input);
@@ -52,9 +51,66 @@ void	Phonebook::ft_add()
 	std::cout << "Phone number" << std::endl;
 	std::cin >> input;
 	contact.set_phone_number(input);
-	this->_contacts[_idx] = contact;
-	this->_idx++;
+	this->_contacts[this->_cur % 8] = contact;
+	this->_cur++;
+	if (this->_cur <= 8)
+		this->_idx = this->_cur;
 	std::cout << "Successfully added" << std::endl;
-	// output = contact.get_first_name();
-	// std::cout << "Output First Name: " << output;
+}
+
+std::string	ft_resize(std::string s)
+{
+	if (s.length() > 10)
+	{
+		return (s.substr(0, 9) + ".");
+	}
+	return (s);
+}
+
+void	PhoneBook::ft_display_contact(void)
+{
+	unsigned int	i;
+
+	i = 0;
+	std::cout << "|     Index|First Name| Last Name|  Nickname|" << std::endl;
+	while (i < this->_idx)
+	{
+		std::cout
+		<< "|" << std::setw(10) << i
+		<< "|" << std::setw(10) << ft_resize(_contacts[i].get_first_name())
+		<< "|" << std::setw(10) << ft_resize(_contacts[i].get_last_name())
+		<< "|" << std::setw(10) << ft_resize(_contacts[i].get_nick_name())
+		<< "|" <<
+		std::endl;
+		i++;
+	}
+}
+
+void	PhoneBook::ft_search(void)
+{
+	unsigned int	i;
+
+	PhoneBook::ft_display_contact();
+	std::cout << "Enter an index" << std::endl;
+	std::cin >> i;
+	if (std::cin.good())
+	{
+		if (i < this->_idx)
+		{
+			std::cout << "First Name: " << this->_contacts[i].get_first_name() << std::endl;
+			std::cout << "Last Name: " << this->_contacts[i].get_last_name() << std::endl;
+			std::cout << "Nick Name: " << this->_contacts[i].get_nick_name() << std::endl;
+			std::cout << "Dark Secret: " << this->_contacts[i].get_darkest_secret() << std::endl;
+			std::cout << "Phone Number: " << this->_contacts[i].get_phone_number() << std::endl;
+		}
+		else
+			std::cout << "Invalid index" << std::endl;
+	}
+	else if (std::cin.fail())
+	{
+		std::cout << "Invalid index" << std::endl;
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+	
 }
