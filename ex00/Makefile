@@ -6,7 +6,7 @@
 #    By: steh <steh@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/18 17:07:14 by steh              #+#    #+#              #
-#    Updated: 2022/08/19 16:50:28 by steh             ###   ########.fr        #
+#    Updated: 2022/08/23 14:42:53 by steh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -pedantic -g -fsanitize=address
 CC		=	c++	
 
 all		: 	$(NAME)
-			./megaphone
+			./$(NAME)
 
 # $(OBJS)	:	$(SRCS)
 # 			$(CC) $(CFLAGS) $(SRCS) -c

@@ -6,18 +6,27 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 20:00:16 by steh              #+#    #+#             */
-/*   Updated: 2022/08/21 21:22:58 by steh             ###   ########.fr       */
+/*   Updated: 2022/08/23 17:22:30 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Account.hpp"
 #include <iostream>
+#include <iomanip>
 
 int	Account::_nbAccounts = 0;
 int	Account::_totalAmount = 0;
 int	Account::_totalNbDeposits = 0;
 int	Account::_totalNbWithdrawals = 0;
 
+struct str
+{
+	std::string string;
+};
+
+str		classes[100];
+int		classes_max = 0;
+int		classes_index = 0;
 // index:0;amount:42;created
 Account::Account(int initial_deposit)
 {
@@ -25,6 +34,7 @@ Account::Account(int initial_deposit)
 	this->_accountIndex = this->_nbAccounts++;
 	this->_nbDeposits = 0;
 	this->_nbWithdrawals = 0;
+	classes_max++;
 	Account::_totalAmount += initial_deposit;
 	Account::_displayTimestamp();
 	std::cout << "index:" << this->_accountIndex << ";";
@@ -36,11 +46,21 @@ Account::Account(int initial_deposit)
 //[19920104_091532] index:7;amount:8942;closed
 Account::~Account(void)
 {
-	Account::_displayTimestamp();
-	this->_nbAccounts--;
-	std::cout << "index:" << this->_accountIndex << ";";
-	std::cout << "amount:" << this->_amount << ";";
-	std::cout << "closed" << std::endl;
+	classes_index++;
+	classes[classes_index].string = "index:" + std::to_string(_accountIndex) + ";amount:" + std::to_string(_amount) + ";closed";
+	if (classes_index == classes_max)
+	{
+		for (int i = classes_max; i > 0; i--)
+		{
+			_displayTimestamp();
+			std::cout << classes[i].string << std::endl;
+		}
+	}
+	// Account::_displayTimestamp();
+	// this->_nbAccounts--;
+	// std::cout << "index:" << this->_accountIndex << ";";
+	// std::cout << "amount:" << this->_amount << ";";
+	// std::cout << "closed" << std::endl;
 }
 
 int		Account::getNbAccounts( void )
@@ -75,9 +95,27 @@ void	Account::displayAccountsInfos( void )
 	return ;
 }
 
+// https://en.cppreference.com/w/cpp/chrono/time_point
+// std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
+// std::time_t	time_now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+// std::cout << "[19920104_091532] ";
 void	Account::_displayTimestamp(void)
 {
-	std::cout << "[19920104_091532] ";
+
+	time_t time_now = time(NULL);
+	tm time = *localtime(&time_now);
+
+	std::cout
+	<< std::setfill('0') 
+	<< "[" 
+	<< (time.tm_year + 1900)
+	<< std::setw(2) << (time.tm_mon + 1)
+	<< std::setw(2) << time.tm_mday 
+	<< "_"
+	<< std::setw(2) << time.tm_hour
+	<< std::setw(2) << time.tm_min
+	<< std::setw(2) << time.tm_sec 
+	<< "] ";
 }
 
 //index:0;p_amount:42;deposit:5;amount:47;nb_deposits:1
